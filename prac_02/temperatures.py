@@ -9,6 +9,7 @@ Q - Quit"""
 
 
 def main():
+    """Convert temperatures using menu UI."""
     print(MENU)
     choice = input(">>> ").upper()
     while choice != "Q":
@@ -28,13 +29,14 @@ def main():
 
 
 def concert_fahrenheit_to_celsius(fahrenheit):
-    celsius = 5 / 9 * (fahrenheit - 32)
-    return celsius
+    # concert Fahrenheit to Celsius
+    # question: is this function docstring really necessary?
+    return 5 / 9 * (fahrenheit - 32)
 
 
 def convert_celsius_to_fahrenheit(celsius):
-    fahrenheit = celsius * 9.0 / 5 + 32
-    return fahrenheit
+    # concert Celsius to Fahrenheit
+    return celsius * 9.0 / 5 + 32
 
 
 main()
