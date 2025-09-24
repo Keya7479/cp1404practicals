@@ -39,9 +39,7 @@ def get_valid_score():
 
 def determine_result(score):
     """Determine result based on grading boundaries for score."""
-    if score < 0 or score > 100:
-        return "invalid"
-    elif score >= 90:
+    if score >= 90:
         return "excellent"
     elif score >= 50:
         return "passable"
