@@ -1,3 +1,9 @@
+"""
+CP1404/CP5632 - Practical
+Various file manipulation mini programs
+"""
+
+
 """1. opens a file called name.txt and writes user inputted name to it."""
 name = input("Enter name: ")
 in_file = open("name", "w")
