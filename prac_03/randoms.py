@@ -1,3 +1,7 @@
+"""
+CP1404/CP5632 - Practical
+Answer questions about random.rand
+"""
 import random
 
 print(random.randint(5, 20))  # line 1
