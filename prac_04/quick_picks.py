@@ -13,8 +13,11 @@ MAXIMUM = 45
 number_of_quick_picks = int(input("Enter number of 'quick picks': "))
 for quick_pick in range(number_of_quick_picks):
     line = []
-    for number in range(NUMBERS_IN_LINE):
-        line.append(random.randint(MINIMUM, MAXIMUM))
+    for i in range(NUMBERS_IN_LINE):
+        number = random.randint(MINIMUM, MAXIMUM)
+        while number in line:
+            number = random.randint(MINIMUM, MAXIMUM)
+        line.append(number)
     line.sort()
     print(" ".join(f"{number:3}" for number in line))
 
