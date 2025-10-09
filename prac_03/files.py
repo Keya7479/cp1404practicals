@@ -25,4 +25,4 @@ total = 0
 with open("numbers", "r") as in_file:
     for line in in_file:
         total += int(line)
-    print(total)
+print(total)
