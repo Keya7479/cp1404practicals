@@ -8,12 +8,8 @@ word_to_instances = {}
 text = input("Text: ").split()
 
 for word in sorted(text):
-    if word in word_to_instances:
-        word_to_instances[word] += 1
-    else:
-        word_to_instances[word] = 1
-
-sorted(word_to_instances)
+    number_of_instances = word_to_instances.get(word, 0)
+    word_to_instances[word] = number_of_instances + 1
 
 max_length = max(len(word) for word in list(word_to_instances.keys()))
 for word, instance in word_to_instances.items():
