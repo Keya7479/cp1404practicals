@@ -9,7 +9,7 @@ text = input("Text: ").split()
 
 for word in sorted(text):
     instance = word_to_instances.get(word, 0)
-    word_to_instances[word] = number_of_instances + 1
+    word_to_instances[word] = instance + 1
 
 max_length = max(len(word) for word in list(word_to_instances.keys()))
 for word, instance in word_to_instances.items():
