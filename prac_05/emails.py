@@ -7,6 +7,7 @@ Actual:   20 minutes
 
 
 def main():
+    """convert email addresses to dictionaries of name to email"""
     email = input("Email: ")
     name_to_email = {}
 
@@ -23,6 +24,7 @@ def main():
 
 
 def extract_name(email):
+    """Extract name from email"""
     name = " ".join((email.split("@")[0]).split(".")).title()
     return name
 
