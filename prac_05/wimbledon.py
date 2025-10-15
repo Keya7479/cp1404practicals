@@ -8,6 +8,7 @@ FILENAME = "wimbledon.csv"
 
 
 def main():
+    """read FILENAME and print relevant information on champions and countries"""
     records = extract_data(FILENAME)
     name_to_instances, countries = process_records(records)
     print_records(name_to_instances, countries)
@@ -25,6 +26,7 @@ def extract_data(filename):
 
 
 def process_records(records):
+    """turn records into a set of countries and a dictionary of name to number of instances"""
     name_to_instances = {}
     countries = set()
     for country, name in records:
@@ -37,6 +39,7 @@ def process_records(records):
 
 
 def print_records(name_to_instances, countries):
+    """print names of winners, instances and countries"""
     print("Wimbledon Champions:")
     for name, number_of_instances in name_to_instances.items():
         print(name, number_of_instances)
