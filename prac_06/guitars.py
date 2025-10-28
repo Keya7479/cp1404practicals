@@ -19,7 +19,6 @@ while name != "":
     print(f"{new_guitar} added.")
     name = input("Name: ")
 
-print(f"\n...snip...\n")
 print("Theses are my guitars:")
 for i, guitar in enumerate(guitars, 1):
     print(f"Guitar {i}: {guitar.name:>20} ({guitar.year}), worth ${guitar.cost:10,.2f}")
