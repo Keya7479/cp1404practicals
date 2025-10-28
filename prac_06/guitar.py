@@ -6,7 +6,7 @@ VINTAGE_MINIMUM_YEAR = 50
 class Guitar:
     """Guitar class."""
 
-    def __init__(self, name="", year=0, cost=0.00, ):
+    def __init__(self, name="", year=0, cost=0.00):
         """Initialize a Guitar object."""
         self.name = name
         self.year = year
