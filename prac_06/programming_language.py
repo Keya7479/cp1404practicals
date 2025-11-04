@@ -4,7 +4,7 @@
 class ProgrammingLanguage:
     """ProgrammingLanguage class."""
 
-    def __init__(self, name="", typing="Static", reflection="Yes", year=0):
+    def __init__(self, name, typing, reflection, year):
         """Initialize a ProgrammingLanguage object."""
         self.name = name
         self.typing = typing
