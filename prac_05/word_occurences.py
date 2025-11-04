@@ -5,9 +5,9 @@ Actual:   15 minutes
 """
 
 word_to_instances = {}
-text = input("Text: ").split()
+words = input("Text: ").split()
 
-for word in sorted(text):
+for word in sorted(words):
     instance = word_to_instances.get(word, 0)
     word_to_instances[word] = instance + 1
 
