@@ -15,7 +15,7 @@ def main():
 
 
 def extract_guitars():
-    """Extract guitars from FILENAME as list of objects (Guitars)"""
+    """Extract guitars from FILENAME as list of objects (Guitars)."""
     guitars = []
     with open(FILENAME, "r") as in_file:
         in_file.readline()  # Ignore header line
@@ -27,7 +27,7 @@ def extract_guitars():
 
 
 def displayer_sorted_guitars(guitars):
-    """Display Sorted guitars"""
+    """Display Sorted guitars."""
     guitars.sort()
     for guitar in guitars:
         print(guitar)
