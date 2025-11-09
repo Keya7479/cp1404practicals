@@ -5,17 +5,7 @@ Actual time:
 Estimated time: 3 hrs
 """
 import datetime
-from operator import attrgetter
-
 from project import Project
-
-# NOTES
-# You should notice that there are two different scenarios for both loading and saving.
-# Consider SRP and how you can write a single function for loading that you use in both scenarios: the default filename and the user-selected filename.
-# Use the datetime module for the project start date.
-# Use at least one utility/helper method in your class.
-# Think of our examples like is_vintage for Guitar and what you might use for a Project.
-# Error checking. Do no error checking to start with.
 
 WELCOME_MESSAGE = "Welcome to Pythonic Project Management"
 MENU = ("- (L)oad projects\n"
@@ -109,10 +99,10 @@ def load_project(filename):
 def save_projects(filename, projects):
     """Save projects to filename."""
     with open(filename, "w") as out_file:
-        print("Name	Start Date\nPriority\nCost Estimate\nCompletion Percentage")  # file header
+        print("Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage", file=out_file)  # file header
         for project in projects:
             print(
-                f"{project.name}\t{project.date.strftime('%A')}\t{project.priority}\t{project.cost}\t{project.completion}",
+                f"{project.name}\t{project.date.strftime('%d/%m/%Y')}\t{project.priority}\t{project.cost}\t{project.completion}",
                 file=out_file)
 
 
