@@ -5,6 +5,8 @@ Actual time:
 Estimated time: 3 hrs
 """
 import datetime
+from operator import attrgetter
+
 from project import Project
 
 # NOTES
@@ -53,20 +55,21 @@ def main():
         elif choice == "D":
             # Display two groups: incomplete projects; completed projects, both sorted by priority.
             incomplete_projects = [project for project in projects if not project.is_complete()]
-            sorted_incomplete_projects = sort_projects(incomplete_projects)
+            incomplete_projects.sort()
             print("Incompleted projects:")
-            display_projects(sorted_incomplete_projects, "  ")
+            display_projects(incomplete_projects, "  ")
 
             complete_projects = [project for project in projects if project.is_complete()]
-            sorted_complete_projects = sort_projects(complete_projects)
+            complete_projects.sort()
             print("Completed projects:")
-            display_projects(sorted_complete_projects, "  ")
+            display_projects(complete_projects, "  ")
         elif choice == "F":
             # Ask the user for a date and display only projects that start after that date, sorted by date.
-            filter_date = input("Show projects that start after date (dd/mm/yy):")
-            filtered_projects = filter_projects(projects, DATE_INDEX, filter_date)
-            sorted_filtered_projects = sort_projects(filtered_projects)
-            display_projects(sorted_filtered_projects, "")
+            filter_date_string = input("Show projects that start after date (dd/mm/yy):")
+            filter_date = datetime.datetime.strptime(filter_date_string, "%d/%m/%Y").date()
+            filtered_projects = filter_projects(projects, filter_date)
+            filtered_projects.sort()  # TODO: fix sort to sort by date
+            display_projects(filtered_projects, "")
         elif choice == "A":
             # Ask the user for the inputs and add a new project to memory.
             print("Let's add a new project")
@@ -119,10 +122,10 @@ def display_projects(projects, indent):
         print(f"{indent}{project}")
 
 
-def filter_projects(projects, filter_method, filter_value):
-    """Filter projects by filter_method according to filter_value."""
-    # filtered_projects = [project[filter_index] for project in projects if project[filter_index] "filter_method" 100]
-    return "1"  # dummy value change later
+def filter_projects(projects, filter_value):
+    """Filter projects by date for projects older than filter_value."""
+    filtered_projects = [project for project in projects if project.date < filter_value]
+    return filtered_projects
 
 
 def get_project():
@@ -139,7 +142,7 @@ def update_project(project_index, percent, priority):
 
 
 def sort_projects(projects):
-    """Sort projects by priority"""
+    """Sort projects by date"""
     projects.sort()
     return projects
 
