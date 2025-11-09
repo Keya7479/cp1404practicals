@@ -110,17 +110,13 @@ def load_project(filename):
     # print(project for project in projects)
     return projects
 
-    # import datetime
-    #
-    # date_string = input("Date (d/m/yyyy): ")  # e.g., "30/9/2022"
-    # date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
-    # print(f"That day is/was {date.strftime('%A')}")
-    # print(date.strftime("%d/%m/%Y"))
-    return "1"  # dummy value change later
-
 
 def save_projects(filename, projects):
     """Save projects to filename."""
+    with open(filename, "w") as out_file:
+        for project in projects:
+            print(project, file=out_file)
+
 
 
 def display_projects(projects):
