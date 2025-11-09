@@ -15,9 +15,6 @@ from project import Project
 # Think of our examples like is_vintage for Guitar and what you might use for a Project.
 # Error checking. Do no error checking to start with.
 
-# Remember how in our walkthrough above, we saw that it is not the class's job to convert the file's "Yes" string into the Boolean True for the class? That's the job of the client code.
-# Here, when you create a Project object, you will want to convert the date string to a datetime object, but it's not the class's job - it's the client code's job.
-
 WELCOME_MESSAGE = "Welcome to Pythonic Project Management"
 MENU = ("- (L)oad projects\n"
         "- (S)ave projects\n"
@@ -49,29 +46,27 @@ def main():
             chosen_filename = input("Enter filename: ")
             projects = load_project(chosen_filename)
             print(f"Loaded {len(projects)} projects from {DEFAULT_FILENAME}")
-
         elif choice == "S":
             # Prompt the user for a filename to save projects to and save them.
             chosen_filename = input("Enter filename: ")
             save_projects(chosen_filename, projects)
         elif choice == "D":
             # Display two groups: incomplete projects; completed projects, both sorted by priority.
-            incomplete_projects = filter_projects(projects, COMPLETION_INDEX,
-                                                  range(0, 100))  # TODO: consider logic here
-            sorted_incomplete_projects = sort_projects(incomplete_projects, PRIORITY_INDEX)
-            print("Uncompleted projects:")
-            display_projects(sorted_incomplete_projects)
+            incomplete_projects = [project for project in projects if not project.is_complete()]
+            sorted_incomplete_projects = sort_projects(incomplete_projects)
+            print("Incompleted projects:")
+            display_projects(sorted_incomplete_projects, "  ")
 
-            complete_projects = filter_projects(projects, COMPLETION_INDEX, 100)
-            sorted_complete_projects = sort_projects(complete_projects, PRIORITY_INDEX)
+            complete_projects = [project for project in projects if project.is_complete()]
+            sorted_complete_projects = sort_projects(complete_projects)
             print("Completed projects:")
-            display_projects(sorted_complete_projects)
+            display_projects(sorted_complete_projects, "  ")
         elif choice == "F":
             # Ask the user for a date and display only projects that start after that date, sorted by date.
             filter_date = input("Show projects that start after date (dd/mm/yy):")
             filtered_projects = filter_projects(projects, DATE_INDEX, filter_date)
-            sorted_filtered_projects = sort_projects(filtered_projects, DATE_INDEX)
-            display_projects(sorted_filtered_projects)
+            sorted_filtered_projects = sort_projects(filtered_projects)
+            display_projects(sorted_filtered_projects, "")
         elif choice == "A":
             # Ask the user for the inputs and add a new project to memory.
             print("Let's add a new project")
@@ -79,7 +74,7 @@ def main():
             add_project(name, date, priority, cost, completion)
         elif choice == "U":
             # Choose a project, then modify the completion % and/or priority.
-            display_projects(projects)
+            display_projects(projects, " ")
             project_index = input("Project choice: ")
             print(projects[project_index])
             new_percent = input("New Percentage: ")
@@ -118,14 +113,15 @@ def save_projects(filename, projects):
             print(project, file=out_file)
 
 
-
-def display_projects(projects):
+def display_projects(projects, indent):
     """Display two groups: incomplete projects; completed projects."""
+    for project in projects:
+        print(f"{indent}{project}")
 
 
 def filter_projects(projects, filter_method, filter_value):
     """Filter projects by filter_method according to filter_value."""
-    # [project[COMPLETION_INDEX] in projects if project[COMPLETION_INDEX] != 100]
+    # filtered_projects = [project[filter_index] for project in projects if project[filter_index] "filter_method" 100]
     return "1"  # dummy value change later
 
 
@@ -142,9 +138,10 @@ def update_project(project_index, percent, priority):
     """Modify the completion % and/or priority of project - if either is "" then retain existing values."""
 
 
-def sort_projects(items, sort_method):
-    """Sort items by sort_method."""
-    return "1"  # dummy value change later
+def sort_projects(projects):
+    """Sort projects by priority"""
+    projects.sort()
+    return projects
 
 
 main()
