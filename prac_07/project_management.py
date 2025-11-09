@@ -17,81 +17,122 @@ Estimated time: 3 hrs
 # Here, when you create a Project object, you will want to convert the date string to a datetime object, but it's not the class's job - it's the client code's job.
 
 WELCOME_MESSAGE = "Welcome to Pythonic Project Management"
-MENU = "- (L)oad projects"
-"- (S)ave projects"
-"- (D)isplay projects"
-"- (F)ilter projects by date"
-"- (A)dd new project"
-"- (U)pdate project"
-"- (Q)uit"
-FILENAME = "projects.txt"
+MENU = ("- (L)oad projects\n"
+        "- (S)ave projects\n"
+        "- (D)isplay projects\n"
+        "- (F)ilter projects by date\n"
+        "- (A)dd new project\n"
+        "- (U)pdate project\n"
+        "- (Q)uit")
+DEFAULT_FILENAME = "projects.txt"
+
+# identification indexes for each project in projects
+NAME_INDEX = 0
+DATE_INDEX = 1
+PRIORITY_INDEX = 2
+COST_INDEX = 3
+COMPLETION_INDEX = 4
 
 
 def main():
+    """Load, manipulate and save projects from chosen files using a list of Project objects."""
     print(WELCOME_MESSAGE)
-    projects = load_project()
-    print(f"Loaded {len(projects)} projects from {FILENAME}")
+    projects = load_project(DEFAULT_FILENAME)
+    print(f"Loaded {len(projects)} projects from {DEFAULT_FILENAME}")
     print(MENU)
-    choice = input()
+    choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":
-            load_project()
-            # TODO: Load projects: prompt the user for a filename to load projects from and load them
-            # import datetime
-            #
-            # date_string = input("Date (d/m/yyyy): ")  # e.g., "30/9/2022"
-            # date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
-            # print(f"That day is/was {date.strftime('%A')}")
-            # print(date.strftime("%d/%m/%Y"))
+            # Prompt the user for a filename to load projects from and load them.
+            chosen_filename = input("Enter filename: ")
+            projects = load_project(chosen_filename)
+            print(f"Loaded {len(projects)} projects from {DEFAULT_FILENAME}")
+
         elif choice == "S":
-            save_projects()
-            # TODO: Save projects Prompt the user for a filename to save projects to and save them
+            # Prompt the user for a filename to save projects to and save them.
+            chosen_filename = input("Enter filename: ")
+            save_projects(chosen_filename, projects)
         elif choice == "D":
-            display_projects()
-            sort_projects()
-            # TODO: Display projects: Display two groups: incomplete projects; completed projects, both sorted by priority
+            # Display two groups: incomplete projects; completed projects, both sorted by priority.
+            incomplete_projects = filter_projects(projects, COMPLETION_INDEX,
+                                                  range(0, 100))  # TODO: consider logic here
+            sorted_incomplete_projects = sort_projects(incomplete_projects, PRIORITY_INDEX)
+            print("Uncompleted projects:")
+            display_projects(sorted_incomplete_projects)
+
+            complete_projects = filter_projects(projects, COMPLETION_INDEX, 100)
+            sorted_complete_projects = sort_projects(complete_projects, PRIORITY_INDEX)
+            print("Completed projects:")
+            display_projects(sorted_complete_projects)
         elif choice == "F":
-            filter_projects()
-            sort_projects()
-            # TODO: Filter projects by date: Ask the user for a date and display only projects that start after that date, sorted by date
+            # Ask the user for a date and display only projects that start after that date, sorted by date.
+            filter_date = input("Show projects that start after date (dd/mm/yy):")
+            filtered_projects = filter_projects(projects, DATE_INDEX, filter_date)
+            sorted_filtered_projects = sort_projects(filtered_projects, DATE_INDEX)
+            display_projects(sorted_filtered_projects)
         elif choice == "A":
-            add_projects()
-            # TODO: Add new project: Ask the user for the inputs and add a new project to memory
+            # Ask the user for the inputs and add a new project to memory.
+            print("Let's add a new project")
+            name, date, priority, cost, completion = get_project()
+            add_project(name, date, priority, cost, completion)
         elif choice == "U":
-            update_projects()
-            # TODO: Update project: Choose a project, then modify the completion % and/or priority - the user can leave either input blank to retain existing values
+            # Choose a project, then modify the completion % and/or priority.
+            display_projects(projects)
+            project_index = input("Project choice: ")
+            print(projects[project_index])
+            new_percent = input("New Percentage: ")
+            new_priority = input("New Priority: ")
+            update_project(project_index, new_percent, new_priority)
         print(MENU)
-        choice = input()
-    # TODO: When the user quits, give them the choice of saving to the default file.
+        choice = input(">>> ").upper()
+    # When the user quits, give them the choice of saving to the default file.
+    save_choice = input(f"Would you like to save to {DEFAULT_FILENAME}?")
+    if save_choice == "yes":
+        save_projects(DEFAULT_FILENAME, projects)
+    print("Thank you for using custom-built project management software.")
 
 
 def load_project(filename):
-    """Load projects from filename as list of Project objects"""
+    """Load projects from filename as list of Project objects."""
+    # import datetime
+    #
+    # date_string = input("Date (d/m/yyyy): ")  # e.g., "30/9/2022"
+    # date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
+    # print(f"That day is/was {date.strftime('%A')}")
+    # print(date.strftime("%d/%m/%Y"))
     return "1"  # dummy value change later
 
 
-def save_projects(filename):
-    """Save projects to filename"""
+def save_projects(filename, projects):
+    """Save projects to filename."""
 
 
-def display_projects():
-    """Display two groups: incomplete projects; completed projects"""
+def display_projects(projects):
+    """Display two groups: incomplete projects; completed projects."""
 
 
-def filter_projects(date):
-    """Display only projects that start after date"""
+def filter_projects(projects, filter_method, filter_value):
+    """Filter projects by filter_method according to filter_value."""
+    # [project[COMPLETION_INDEX] in projects if project[COMPLETION_INDEX] != 100]
+    return "1"  # dummy value change later
 
 
-def add_projects():
+def get_project():
+    """Get new project from user."""
+    return "1", "2", "3", "4", "5"  # dummy value change later
+
+
+def add_project(name, date, priority, cost, completion):
     """Add a new project to memory."""
 
 
-def update_projects(project):
-    """Modify the completion % and/or priority of project - the user can leave either input blank to retain existing values."""
+def update_project(project_index, percent, priority):
+    """Modify the completion % and/or priority of project - if either is "" then retain existing values."""
 
 
-def sort_projects(sort_method):
-    """Sort projects by sort_method."""
+def sort_projects(items, sort_method):
+    """Sort items by sort_method."""
+    return "1"  # dummy value change later
 
 
 main()
