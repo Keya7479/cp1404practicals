@@ -17,12 +17,11 @@ class Project:
         return (f"{self.name}, start: {self.date}, priority {self.priority}, estimate ${self.cost:.2f}, "
                 f"completion: {self.completion}%")
 
-    def __repr__(self):
-        return str(self)
-
     def __lt__(self, other):
+        """Determine if self is less than other based on priority"""
         return int(self.priority) < int(other.priority)
 
     def is_complete(self):
+        """Determine if project is complete"""
         return self.completion == 100
 
