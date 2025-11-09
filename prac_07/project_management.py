@@ -159,6 +159,7 @@ def get_valid_project():
 
 
 def get_number(attribute):
+    """Get a valid number for attribute"""
     try:
         attribute = int(input(f"{attribute.upper()}: "))
     except ValueError:
