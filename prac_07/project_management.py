@@ -4,6 +4,8 @@ Loads and saves a data file using a list of Project objects.
 Actual time:
 Estimated time: 3 hrs
 """
+import datetime
+from project import Project
 
 # NOTES
 # You should notice that there are two different scenarios for both loading and saving.
@@ -94,6 +96,20 @@ def main():
 
 def load_project(filename):
     """Load projects from filename as list of Project objects."""
+    projects = []
+    with open(filename, "r") as in_file:
+        in_file.readline()  # Remove header row
+        for line in in_file:
+            parts = line.strip().split("\t")
+            date_string = parts[DATE_INDEX]
+            date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
+            project = Project(parts[NAME_INDEX], date, parts[PRIORITY_INDEX], float(parts[COST_INDEX]),
+                              int(parts[COMPLETION_INDEX]))
+            projects.append(project)
+    # TODO: fix print error
+    # print(project for project in projects)
+    return projects
+
     # import datetime
     #
     # date_string = input("Date (d/m/yyyy): ")  # e.g., "30/9/2022"
