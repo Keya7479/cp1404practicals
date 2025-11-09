@@ -3,6 +3,7 @@ Project Management Program
 Loads and saves a data file using a list of Project objects.
 Actual time: 4hrs
 Estimated time: 3 hrs
+TODO: DRY for whole program
 """
 import datetime
 from operator import attrgetter
@@ -25,9 +26,6 @@ DATE_INDEX = 1
 PRIORITY_INDEX = 2
 COST_INDEX = 3
 COMPLETION_INDEX = 4
-
-
-# TODO: DRY for whole program
 
 
 def main():
