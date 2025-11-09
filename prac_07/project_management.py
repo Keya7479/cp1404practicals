@@ -25,6 +25,9 @@ COST_INDEX = 3
 COMPLETION_INDEX = 4
 
 
+# TODO: DRY for whole program
+
+
 def main():
     """Load, manipulate and save projects from chosen files using a list of Project objects."""
     print(WELCOME_MESSAGE)
@@ -36,8 +39,14 @@ def main():
         if choice == "L":
             # Prompt the user for a filename to load projects from and load them.
             chosen_filename = input("Enter filename: ")
-            projects = load_project(chosen_filename)
-            print(f"Loaded {len(projects)} projects from {DEFAULT_FILENAME}")
+            try:
+                projects = load_project(chosen_filename)
+                print(f"Loaded {len(projects)} projects from {DEFAULT_FILENAME}")
+            except FileNotFoundError:
+                print("File does not exist :(")
+            except ValueError:
+                print("File not correctly formatted :(\n"
+                      "Correct formatting: Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage")
         elif choice == "S":
             # Prompt the user for a filename to save projects to and save them.
             chosen_filename = input("Enter filename: ")
@@ -56,22 +65,34 @@ def main():
         elif choice == "F":
             # Ask the user for a date and display only projects that start after that date, sorted by date.
             filter_date_string = input("Show projects that start after date (dd/mm/yy):")
-            filter_date = datetime.datetime.strptime(filter_date_string, "%d/%m/%Y").date()
-            filtered_projects = filter_projects(projects, filter_date)
-            filtered_projects.sort()  # TODO: fix sort to sort by date
-            display_projects(filtered_projects, "", False)
+            try:
+                filter_date = datetime.datetime.strptime(filter_date_string, "%d/%m/%Y").date()
+                filtered_projects = filter_projects(projects, filter_date)
+                filtered_projects.sort()  # TODO: fix sort to sort by date
+                display_projects(filtered_projects, "", False)
+            except ValueError:
+                print("Invalid date :(")
         elif choice == "A":
             # Ask the user for the inputs and add a new project to memory.
             print("Let's add a new project")
-            projects.append(get_project())
+            new_project = get_valid_project()
+            if new_project != "BAD":
+                projects.append(new_project)
         elif choice == "U":
             # Choose a project, then modify the completion % and/or priority.
             display_projects(projects, " ", True)
-            project_index = int(input("Project choice: "))
-            print(projects[project_index])
-            new_completion = input("New Percentage: ")
-            new_priority = input("New Priority: ")
-            update_project(projects, project_index, new_completion, new_priority)
+            try:
+                project_index = int(input("Project choice: "))
+                print(projects[project_index])
+                new_completion = input("New Percentage: ")
+                new_priority = input("New Priority: ")
+                update_project(projects, project_index, new_completion, new_priority)
+            except IndexError:
+                print("This index does not exist :(")
+            except ValueError:
+                print("Invalid input")
+        else:
+            print("Invalid input :(")
         print(MENU)
         choice = input(">>> ").upper()
     # When the user quits, give them the choice of saving to the default file.
@@ -121,16 +142,27 @@ def filter_projects(projects, filter_date):
     return filtered_projects
 
 
-def get_project():
+def get_valid_project():
     """Get new project from user."""
-    name = input("Name: ")
-    date_string = input("Start date: ")
-    date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
-    priority = int(input("Priority: "))
-    cost = float(input("Cost estimate: $"))
-    completion = int(input("Percent complete: "))
-    project = Project(name, date, priority, cost, completion)
-    return project
+    try:
+        name = input("Name: ")
+        date_string = input("Start date: ")
+        date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
+        priority = int(input("Priority: "))
+        cost = float(input("Cost estimate: $"))
+        completion = int(input("Percent complete: "))
+        project = Project(name, date, priority, cost, completion)
+        return project
+    except ValueError:
+        print("Invalid input :( ")
+        return "BAD"  # TODO: fix logic and neaten this
+
+
+def get_number(attribute):
+    try:
+        attribute = int(input(f"{attribute.upper()}: "))
+    except ValueError:
+        print(f"Invalid {attribute}, must be a number :(")
 
 
 def update_project(projects, project_index, completion, priority):
