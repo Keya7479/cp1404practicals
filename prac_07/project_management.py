@@ -103,16 +103,17 @@ def load_project(filename):
             project = Project(parts[NAME_INDEX], date, parts[PRIORITY_INDEX], float(parts[COST_INDEX]),
                               int(parts[COMPLETION_INDEX]))
             projects.append(project)
-    # TODO: fix print error
-    # print(project for project in projects)
     return projects
 
 
 def save_projects(filename, projects):
     """Save projects to filename."""
     with open(filename, "w") as out_file:
+        print("Name	Start Date\nPriority\nCost Estimate\nCompletion Percentage")  # file header
         for project in projects:
-            print(project, file=out_file)
+            print(
+                f"{project.name}\t{project.date.strftime('%A')}\t{project.priority}\t{project.cost}\t{project.completion}",
+                file=out_file)
 
 
 def display_projects(projects, indent, is_indexed):
@@ -124,9 +125,9 @@ def display_projects(projects, indent, is_indexed):
             print(f"{indent}{project}")
 
 
-def filter_projects(projects, filter_value):
-    """Filter projects by date for projects older than filter_value."""
-    filtered_projects = [project for project in projects if project.date < filter_value]
+def filter_projects(projects, filter_date):
+    """Filter projects by date for projects that start after filter_date."""
+    filtered_projects = [project for project in projects if project.date >= filter_date]
     return filtered_projects
 
 
@@ -135,7 +136,7 @@ def get_project():
     name = input("Name: ")
     date_string = input("Start date: ")
     date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
-    priority = input("Priority: ")
+    priority = int(input("Priority: "))
     cost = float(input("Cost estimate: $"))
     completion = int(input("Percent complete: "))
     project = Project(name, date, priority, cost, completion)
@@ -149,12 +150,6 @@ def update_project(projects, project_index, completion, priority):
         project.completion = int(completion)
     if priority != "":
         project.priority = int(priority)
-
-
-def sort_projects(projects):
-    """Sort projects by date"""
-    projects.sort()
-    return projects
 
 
 main()

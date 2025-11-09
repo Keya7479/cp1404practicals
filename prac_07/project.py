@@ -21,7 +21,7 @@ class Project:
         return str(self)
 
     def __lt__(self, other):
-        return self.priority < other.priority
+        return int(self.priority) < int(other.priority)
 
     def is_complete(self):
         return self.completion == 100
