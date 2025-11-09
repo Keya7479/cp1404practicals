@@ -57,31 +57,31 @@ def main():
             incomplete_projects = [project for project in projects if not project.is_complete()]
             incomplete_projects.sort()
             print("Incompleted projects:")
-            display_projects(incomplete_projects, "  ")
+            display_projects(incomplete_projects, "  ", False)
 
             complete_projects = [project for project in projects if project.is_complete()]
             complete_projects.sort()
             print("Completed projects:")
-            display_projects(complete_projects, "  ")
+            display_projects(complete_projects, "  ", False)
         elif choice == "F":
             # Ask the user for a date and display only projects that start after that date, sorted by date.
             filter_date_string = input("Show projects that start after date (dd/mm/yy):")
             filter_date = datetime.datetime.strptime(filter_date_string, "%d/%m/%Y").date()
             filtered_projects = filter_projects(projects, filter_date)
             filtered_projects.sort()  # TODO: fix sort to sort by date
-            display_projects(filtered_projects, "")
+            display_projects(filtered_projects, "", False)
         elif choice == "A":
             # Ask the user for the inputs and add a new project to memory.
             print("Let's add a new project")
             projects.append(get_project())
         elif choice == "U":
             # Choose a project, then modify the completion % and/or priority.
-            display_projects(projects, " ")
-            project_index = input("Project choice: ")
+            display_projects(projects, " ", True)
+            project_index = int(input("Project choice: "))
             print(projects[project_index])
-            new_percent = input("New Percentage: ")
+            new_completion = input("New Percentage: ")
             new_priority = input("New Priority: ")
-            update_project(project_index, new_percent, new_priority)
+            update_project(projects, project_index, new_completion, new_priority)
         print(MENU)
         choice = input(">>> ").upper()
     # When the user quits, give them the choice of saving to the default file.
@@ -115,10 +115,13 @@ def save_projects(filename, projects):
             print(project, file=out_file)
 
 
-def display_projects(projects, indent):
+def display_projects(projects, indent, is_indexed):
     """Display two groups: incomplete projects; completed projects."""
-    for project in projects:
-        print(f"{indent}{project}")
+    for i, project in enumerate(projects):
+        if is_indexed:
+            print(f"{i}{indent}{project}")
+        else:
+            print(f"{indent}{project}")
 
 
 def filter_projects(projects, filter_value):
@@ -139,8 +142,13 @@ def get_project():
     return project
 
 
-def update_project(project_index, percent, priority):
+def update_project(projects, project_index, completion, priority):
     """Modify the completion % and/or priority of project - if either is "" then retain existing values."""
+    project = projects[project_index]
+    if completion != "":
+        project.completion = int(completion)
+    if priority != "":
+        project.priority = int(priority)
 
 
 def sort_projects(projects):
