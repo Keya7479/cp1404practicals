@@ -1,10 +1,12 @@
 """
 Project Management Program
 Loads and saves a data file using a list of Project objects.
-Actual time:
+Actual time: 4hrs
 Estimated time: 3 hrs
 """
 import datetime
+from operator import attrgetter
+
 from project import Project
 
 WELCOME_MESSAGE = "Welcome to Pythonic Project Management"
@@ -54,12 +56,12 @@ def main():
         elif choice == "D":
             # Display two groups: incomplete projects; completed projects, both sorted by priority.
             incomplete_projects = [project for project in projects if not project.is_complete()]
-            incomplete_projects.sort()
+            incomplete_projects.sort(key=attrgetter("priority"))
             print("Incompleted projects:")
             display_projects(incomplete_projects, "  ", False)
 
             complete_projects = [project for project in projects if project.is_complete()]
-            complete_projects.sort()
+            complete_projects.sort(key=attrgetter("priority"))
             print("Completed projects:")
             display_projects(complete_projects, "  ", False)
         elif choice == "F":
@@ -68,7 +70,7 @@ def main():
             try:
                 filter_date = datetime.datetime.strptime(filter_date_string, "%d/%m/%Y").date()
                 filtered_projects = filter_projects(projects, filter_date)
-                filtered_projects.sort()  # TODO: fix sort to sort by date
+                filtered_projects.sort(key=attrgetter("date"))
                 display_projects(filtered_projects, "", False)
             except ValueError:
                 print("Invalid date :(")
@@ -169,7 +171,7 @@ def get_number(attribute):
 def update_project(projects, project_index, completion, priority):
     """Modify the completion % and/or priority of project - if either is "" then retain existing values."""
     project = projects[project_index]
-    if completion != "":
+    if completion != "" or " ":
         project.completion = int(completion)
     if priority != "":
         project.priority = int(priority)
