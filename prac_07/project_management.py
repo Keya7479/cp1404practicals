@@ -73,8 +73,7 @@ def main():
         elif choice == "A":
             # Ask the user for the inputs and add a new project to memory.
             print("Let's add a new project")
-            name, date, priority, cost, completion = get_project()
-            add_project(name, date, priority, cost, completion)
+            projects.append(get_project())
         elif choice == "U":
             # Choose a project, then modify the completion % and/or priority.
             display_projects(projects, " ")
@@ -130,11 +129,14 @@ def filter_projects(projects, filter_value):
 
 def get_project():
     """Get new project from user."""
-    return "1", "2", "3", "4", "5"  # dummy value change later
-
-
-def add_project(name, date, priority, cost, completion):
-    """Add a new project to memory."""
+    name = input("Name: ")
+    date_string = input("Start date: ")
+    date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
+    priority = input("Priority: ")
+    cost = float(input("Cost estimate: $"))
+    completion = int(input("Percent complete: "))
+    project = Project(name, date, priority, cost, completion)
+    return project
 
 
 def update_project(project_index, percent, priority):
