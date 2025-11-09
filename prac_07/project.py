@@ -14,9 +14,15 @@ class Project:
 
     def __str__(self):
         """Return string representation of data in a Project."""
-        return (f"{self.name}, start: {self.date}, priority{self.priority}, estimate ${self.cost:2f}, "
+        return (f"{self.name}, start: {self.date}, priority {self.priority}, estimate ${self.cost:.2f}, "
                 f"completion: {self.completion}%")
 
     def __repr__(self):
         return str(self)
+
+    def __lt__(self, other):
+        return self.priority < other.priority
+
+    def is_complete(self):
+        return self.completion == 100
 
