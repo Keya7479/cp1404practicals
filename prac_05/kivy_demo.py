@@ -26,7 +26,7 @@ class KivyDemo(App):
 
     def handle_name_button(self, instance):
         """Handle presses on the name button to greet people."""
-        print("Hello", instance.text)
+        print("Hello", instance.words)
 
     def handle_press(self, amount):
         """Handle presses on the up/down buttons to change counter."""
