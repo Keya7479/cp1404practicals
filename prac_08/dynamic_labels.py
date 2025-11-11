@@ -31,12 +31,9 @@ class DynamicLabelsApp(App):
     def create_labels(self):
         """Create labels from data and add them to the GUI."""
         for name in self.names:
-            # create a button for each data entry, specifying the text
-            temp_button = Button(text=name)
-            # set the button's background colour
-            temp_button.background_color = BACKGROUND_COLOUR
-            # add the button to the "entries_box" layout widget
-            self.root.ids.main.add_widget(temp_button)
+            temp_label = Button(text=name)
+            temp_label.background_color = BACKGROUND_COLOUR
+            self.root.ids.main.add_widget(temp_label)
 
 
 DynamicLabelsApp().run()
