@@ -4,6 +4,7 @@ from kivy.lang import Builder
 
 class BoxLayoutDemo(App):
     """Main program - greeting Kivy app """
+
     def build(self):
         """Build the Kivy GUI"""
         self.title = "Box Layout Demo"
@@ -18,5 +19,6 @@ class BoxLayoutDemo(App):
         """Clear input_name and output_text"""
         self.root.ids.input_name.text = ""
         self.root.ids.output_label.text = ""
+
 
 BoxLayoutDemo().run()
