@@ -1,7 +1,7 @@
 """
 Test cases for the Taxi class
 """
-from prac_09.taxy import Taxi
+from prac_09.taxi import Taxi
 
 
 def main():
