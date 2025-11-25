@@ -5,7 +5,7 @@ and dynamically creates a separate Label for each one.
 
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.uix.button import Button
+from kivy.uix.label import Label
 from kivy.properties import StringProperty
 
 BACKGROUND_COLOUR = (1, 0, 1, 1)  # RGBA for magenta
@@ -31,7 +31,7 @@ class DynamicLabelsApp(App):
     def create_labels(self):
         """Create labels from data and add them to the GUI."""
         for name in self.names:
-            temp_label = Button(text=name)
+            temp_label = Label(text=name)
             temp_label.background_color = BACKGROUND_COLOUR
             self.root.ids.main.add_widget(temp_label)
 
